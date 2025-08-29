@@ -6,8 +6,8 @@ export default function RedirectQuestion() {
 
   useEffect(() => {
     if (id) {
-      const fallbackUrl = encodeURIComponent(`https://play.google.com/store/apps/details?id=com.topicwise.app&referrer=question=${id}`);
-      const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=com.topicwise.app;S.browser_fallback_url=${fallbackUrl};end`;
+      const fallbackUrl = encodeURIComponent(`https://play.google.com/store/apps/details?id=com.topicwise.apps&referrer=question=${id}`);
+      const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=com.topicwise.apps;S.browser_fallback_url=${fallbackUrl};end`;
 
       // Try to open the app
       window.location.href = intentUrl;
