@@ -2,25 +2,17 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 export default function RedirectQuestion() {
-//   const { id } = useParams();
+  const { id } = useParams();
 
-//   useEffect(() => {
-//     if (id) {
-//       const fallbackUrl = encodeURIComponent(`https://play.google.com/store/apps/details?id=com.topicwise.app&referrer=question=${id}`);
-//       const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=com.topicwise.app;S.browser_fallback_url=${fallbackUrl};end`;
+  useEffect(() => {
+    if (id) {
+      const fallbackUrl = encodeURIComponent(`https://play.google.com/store/apps/details?id=com.topicwise.app&referrer=question=${id}`);
+      const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=com.topicwise.app;S.browser_fallback_url=${fallbackUrl};end`;
 
-//       const timeout = setTimeout(() => {
-//         // Fallback in case intent doesn't work
-//         // window.location.href = `https://play.google.com/store/apps/details?id=com.question2&referrer=question=${id}`;
-//         window.location.href = `https://play.google.com/store/apps/details?id=com.topicwise.app&pcampaignid=web_share`
-//       }, 2000);
-
-//       // Try to open the app
-//       window.location.href = intentUrl;
-
-//       return () => clearTimeout(timeout);
-//     }
-//   }, [id]);
+      // Try to open the app
+      window.location.href = intentUrl;
+    }
+  }, [id]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-4">
@@ -47,7 +39,7 @@ export default function RedirectQuestion() {
         <div className="pt-4">
           <button 
             className="bg-green-600 hover:bg-green-500 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-green-500/25 transition-all duration-200 transform hover:scale-105 border border-green-500/20 flex items-center gap-3 mx-auto"
-            onClick={() => window.location.href = `https://play.google.com/store/apps/details?id=com.indocipta.piano&pcampaignid=web_share`}
+            onClick={() => window.location.href = `https://play.google.com/store/apps/details?id=com.topicwise.apps&pcampaignid=web_share`}
           >
             <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
               <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" />
