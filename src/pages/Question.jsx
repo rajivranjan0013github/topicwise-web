@@ -1,75 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 export default function RedirectQuestion() {
   const { id } = useParams();
-  const [isChecking, setIsChecking] = useState(false);
-  const [appStatus, setAppStatus] = useState('unknown'); // 'unknown' | 'checking' | 'not_found' | 'opening'
 
   useEffect(() => {
     if (id) {
-      setIsChecking(true);
-      setAppStatus('checking');
-      const APP_PACKAGE = 'com.topicwise.apps';
-      const STORE_URL = `https://play.google.com/store/apps/details?id=${APP_PACKAGE}`;
-      
-      // Time to wait before assuming app isn't installed (in milliseconds)
-      const APP_OPEN_TIMEOUT = 1500;
-      
-      // Record time before trying to open app
-      const startTime = Date.now();
-      
-      // Handle visibility change to detect if app was opened
-      const handleVisibilityChange = () => {
-        if (document.hidden) {
-          // App was likely opened, clear the fallback timeout
-          if (fallbackTimeout) clearTimeout(fallbackTimeout);
-          setAppStatus('opening');
-        }
-      };
-      
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-      
-      // Setup fallback to store
-      const fallbackTimeout = setTimeout(() => {
-        // Only update UI if enough time has passed and page is still visible
-        if (Date.now() - startTime >= APP_OPEN_TIMEOUT && !document.hidden) {
-          // If we get here, app probably isn't installed
-          setIsChecking(false);
-          setAppStatus('not_found');
-        }
-      }, APP_OPEN_TIMEOUT);
-
-      // Try to open the app using universal links
-      // This matches your manifest configuration for android:host="topicwise.app"
-      const universalLink = `https://topicwise.app/questions/${id}`;
-      
-      // Fallback URL for Play Store with referrer
-      const fallbackUrl = encodeURIComponent(`${STORE_URL}&referrer=question=${id}`);
-      
-      // Intent URL as backup with https scheme (matching your manifest)
-      const intentUrl = `intent://topicwise.app/questions/${id}#Intent;scheme=https;package=${APP_PACKAGE};S.browser_fallback_url=${fallbackUrl};end`;
-      
-      // Try opening the app
-      try {
-        // Try universal link first (this should work since you have autoVerify="true")
-        window.location.href = universalLink;
-        
-        // After a small delay, try intent URL if universal link didn't work
-        setTimeout(() => {
-          if (!document.hidden) {
-            window.location.href = intentUrl;
-          }
-        }, 100);
-      } catch (e) {
-        // If any error occurs, try intent URL directly
-        window.location.href = intentUrl;
-      }
-
-      return () => {
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
-        if (fallbackTimeout) clearTimeout(fallbackTimeout);
-      };
+    //   const fallbackUrl = encodeURIComponent(`https://play.google.com/store/apps/details?id=com.topicwise.apps&referrer=question=${id}`);
+    //   const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=com.topicwise.apps;S.browser_fallback_url=${fallbackUrl};end`;
+    const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=com.topicwise.apps;end`;
+      // Try to open the app
+      window.location.href = intentUrl;
     }
   }, [id]);
 
@@ -91,19 +32,14 @@ export default function RedirectQuestion() {
         {/* App Info */}
         <div className="space-y-4">
           <h1 className="text-3xl font-bold text-white">TopicWise</h1>
-          <p className="text-gray-300 text-lg">
-            {appStatus === 'checking' && 'Checking if app is installed...'}
-            {appStatus === 'opening' && 'Opening app...'}
-            {appStatus === 'not_found' && 'App not found. Click the button below to download from Play Store'}
-            {appStatus === 'unknown' && 'Initializing...'}
-          </p>
+          <p className="text-gray-300 text-lg">Please click to download the app</p>
         </div>
 
         {/* Download Button */}
         <div className="pt-4">
           <button 
             className="bg-green-600 hover:bg-green-500 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-green-500/25 transition-all duration-200 transform hover:scale-105 border border-green-500/20 flex items-center gap-3 mx-auto"
-            onClick={() => window.location.href = `https://play.google.com/store/apps/details?id=com.topicwise.apps&pcampaignid=web_share`}
+            onClick={() => window.location.href = `https://play.google.com/store/apps/details?id=com.indocipta.piano&pcampaignid=web_share`}
           >
             <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
               <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" />
