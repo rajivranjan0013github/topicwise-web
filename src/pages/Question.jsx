@@ -6,7 +6,7 @@ export default function RedirectQuestion() {
 
   useEffect(() => {
     if (id) {
-      const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=com.topicwise.apps;end`;
+      const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=com.topicwise.app;end`;
 
       // Try to open the app
       window.location.href = intentUrl;
