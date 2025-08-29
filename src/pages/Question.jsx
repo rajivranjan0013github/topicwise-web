@@ -4,10 +4,12 @@ import { useParams } from 'react-router-dom';
 export default function RedirectQuestion() {
   const { id } = useParams();
   const [isChecking, setIsChecking] = useState(false);
+  const [appStatus, setAppStatus] = useState('unknown'); // 'unknown' | 'checking' | 'not_found' | 'opening'
 
   useEffect(() => {
     if (id) {
       setIsChecking(true);
+      setAppStatus('checking');
       const APP_PACKAGE = 'com.topicwise.apps';
       const STORE_URL = `https://play.google.com/store/apps/details?id=${APP_PACKAGE}`;
       
@@ -22,6 +24,7 @@ export default function RedirectQuestion() {
         if (document.hidden) {
           // App was likely opened, clear the fallback timeout
           if (fallbackTimeout) clearTimeout(fallbackTimeout);
+          setAppStatus('opening');
         }
       };
       
@@ -33,6 +36,7 @@ export default function RedirectQuestion() {
         if (Date.now() - startTime >= APP_OPEN_TIMEOUT && !document.hidden) {
           // If we get here, app probably isn't installed
           setIsChecking(false);
+          setAppStatus('not_found');
         }
       }, APP_OPEN_TIMEOUT);
 
@@ -88,9 +92,10 @@ export default function RedirectQuestion() {
         <div className="space-y-4">
           <h1 className="text-3xl font-bold text-white">TopicWise</h1>
           <p className="text-gray-300 text-lg">
-            {isChecking 
-              ? 'Checking if app is installed...' 
-              : 'App not found. Click the button below to download from Play Store'}
+            {appStatus === 'checking' && 'Checking if app is installed...'}
+            {appStatus === 'opening' && 'Opening app...'}
+            {appStatus === 'not_found' && 'App not found. Click the button below to download from Play Store'}
+            {appStatus === 'unknown' && 'Initializing...'}
           </p>
         </div>
 
