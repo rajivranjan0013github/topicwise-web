@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import Home from './pages/Home'
+import Question from './pages/Question'
 
 const About = () => (
   <div>
@@ -16,6 +17,7 @@ const App = () => {
         <ul style={{ listStyle: 'none', padding: 20, display: 'flex', gap: 20 }}>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About</Link></li>
+          <li><Link to="/question/123">Question</Link></li>
         </ul>
         
       </nav>
@@ -24,6 +26,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/question/:id" element={<Question />} />
         </Routes>
       </div>
     </div>
