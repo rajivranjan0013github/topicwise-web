@@ -1,0 +1,11 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.topicwise.apps",
+        "sha256_cert_fingerprints":
+          ["FB:33:03:4C:0C:04:B8:D2:DD:C0:72:28:42:F1:F3:F8:7E:C1:CF:85:66:09:DF:82:FD:AD:F1:83:A5:70:F5:A6"]
+      }
+    }
+  ]
