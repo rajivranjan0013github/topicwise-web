@@ -17,7 +17,7 @@ const App = () => {
         <ul style={{ listStyle: 'none', padding: 20, display: 'flex', gap: 20 }}>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About</Link></li>
-          <li><Link to="/question/123">Question</Link></li>
+          <li><Link to="/questions/123">Question</Link></li>
         </ul>
         
       </nav>
@@ -26,7 +26,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/question/:id" element={<Question />} />
+          <Route path="/questions/:id" element={<Question />} />
         </Routes>
       </div>
     </div>

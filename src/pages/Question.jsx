@@ -36,10 +36,31 @@ export default function RedirectQuestion() {
         }
       }, APP_OPEN_TIMEOUT);
 
-      // Try to open the app
+      // Try to open the app using universal links
+      // This matches your manifest configuration for android:host="topicwise.app"
+      const universalLink = `https://topicwise.app/questions/${id}`;
+      
+      // Fallback URL for Play Store with referrer
       const fallbackUrl = encodeURIComponent(`${STORE_URL}&referrer=question=${id}`);
-      const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=${APP_PACKAGE};S.browser_fallback_url=${fallbackUrl};end`;
-      window.location.href = intentUrl;
+      
+      // Intent URL as backup with https scheme (matching your manifest)
+      const intentUrl = `intent://topicwise.app/questions/${id}#Intent;scheme=https;package=${APP_PACKAGE};S.browser_fallback_url=${fallbackUrl};end`;
+      
+      // Try opening the app
+      try {
+        // Try universal link first (this should work since you have autoVerify="true")
+        window.location.href = universalLink;
+        
+        // After a small delay, try intent URL if universal link didn't work
+        setTimeout(() => {
+          if (!document.hidden) {
+            window.location.href = intentUrl;
+          }
+        }, 100);
+      } catch (e) {
+        // If any error occurs, try intent URL directly
+        window.location.href = intentUrl;
+      }
 
       return () => {
         document.removeEventListener('visibilitychange', handleVisibilityChange);
