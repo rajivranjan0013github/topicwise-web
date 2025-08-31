@@ -2,27 +2,9 @@ import { useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 export default function RedirectQuestion() {
-  const { id } = useParams();
-  const location = useLocation();
+ 
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    if (searchParams.get('app_redirect_failed')) {
-      return;
-    }
 
-    if (id) {
-      const fallbackUrl = `${window.location.href}${location.search ? '&' : '?'}app_redirect_failed=true`;
-      const encodedFallbackUrl = encodeURIComponent(fallbackUrl);
-
-      const dataUrl = `https://topicwise.in/questions/${id}`;
-
-      const intentUrl = `intent://${dataUrl}#Intent;scheme=https;package=com.topicwise.apps;S.browser_fallback_url=${encodedFallbackUrl};end`;
-
-      // Try to open the app
-      window.location.href = intentUrl;
-    }
-  }, [id, location]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-4">

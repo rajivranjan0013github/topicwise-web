@@ -4,8 +4,12 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.topicwise.apps",
-      "sha256_cert_fingerprints":
-        ["FB:33:03:4C:0C:04:B8:D2:DD:C0:72:28:42:F1:F3:F8:7E:C1:CF:85:66:09:DF:82:FD:AD:F1:83:A5:70:F5:A6", "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C","FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C"]
+      "sha256_cert_fingerprints": [
+        "FB:33:03:4C:0C:04:B8:D2:DD:C0:72:28:42:F1:F3:F8:7E:C1:CF:85:66:09:DF:82:FD:AD:F1:83:A5:70:F5:A6",
+        "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C",
+        "2A:E2:B7:63:B0:95:B7:5E:AB:7A:71:A8:E3:BE:D2:5E:2D:A5:B5:DB:BB:AA:B9:45:F4:92:76:19:61:B3:BD:ED"
+
+      ]
     }
   }
 ]
