@@ -14,7 +14,10 @@ export default function RedirectQuestion() {
     if (id) {
       const fallbackUrl = `${window.location.href}${location.search ? '&' : '?'}app_redirect_failed=true`;
       const encodedFallbackUrl = encodeURIComponent(fallbackUrl);
-      const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=com.topicwise.apps;S.browser_fallback_url=${encodedFallbackUrl};end`;
+
+      const dataUrl = `https://topicwise.in/questions/${id}`;
+
+      const intentUrl = `intent://${dataUrl}#Intent;scheme=https;package=com.topicwise.apps;S.browser_fallback_url=${encodedFallbackUrl};end`;
 
       // Try to open the app
       window.location.href = intentUrl;
