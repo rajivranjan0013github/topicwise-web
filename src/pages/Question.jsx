@@ -4,7 +4,14 @@ import { useParams } from 'react-router-dom';
 export default function RedirectQuestion() {
   const { id } = useParams();
 
+useEffect(() => {
+    if (id) {
+      const intentUrl = `intent://questions/${id}#Intent;scheme=https;package=com.topicwise.apps;end`;
 
+      // Try to open the app
+      window.location.href = intentUrl;
+    }
+  }, [id]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-4">
