@@ -1,7 +1,23 @@
 import React from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
+import { MathJaxContext } from 'better-react-mathjax'
 import Home from './pages/Home'
 import Question from './pages/Question'
+
+const mathJaxConfig = {
+  loader: { load: ["[tex]/html"] },
+  tex: {
+    packages: { "[+]": ["html"] },
+    inlineMath: [
+      ["$", "$"],
+      ["\\(", "\\)"]
+    ],
+    displayMath: [
+      ["$$", "$$"],
+      ["\\[", "\\]"]
+    ]
+  }
+}
 
 const About = () => (
   <div>
@@ -12,24 +28,26 @@ const About = () => (
 
 const App = () => {
   return (
-    <div>
-      <nav>
+    <MathJaxContext config={mathJaxConfig}>
+      <div>
+      {/* <nav>
         <ul style={{ listStyle: 'none', padding: 20, display: 'flex', gap: 20 }}>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About</Link></li>
           <li><Link to="/questions/123">Question</Link></li>
         </ul>
         
-      </nav>
+      </nav> */}
 
-      <div style={{ padding: 20 }}>
+      <div style={{ padding: 0 }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/questions/:id" element={<Question />} />
         </Routes>
       </div>
-    </div>
+      </div>
+    </MathJaxContext>
   )
 }
 
