@@ -6,9 +6,9 @@ import { LightbulbIcon } from 'lucide-react';
 import { MathJax } from 'better-react-mathjax';
 import Logo from '@/components/Logo';
 import ResultsDialog from '@/components/ResultsDialog';
-import AiExplanationDialog from '@/components/AiExplanationDialog';
+import { AiExplanationDialog } from '@/components/AiExplanationDialog';
 
-const APP_URL = 'http://10.37.161.152:3002/api/question';
+const APP_URL = 'https://app.thebilling.in/api/question';
 
 function QuestionCard({ question, questionIndex, isAnswered, isCorrect, userAnswer, onOptionSelect }) {
   const [showAiExplanation, setShowAiExplanation] = useState(false);
@@ -41,7 +41,7 @@ function QuestionCard({ question, questionIndex, isAnswered, isCorrect, userAnsw
     return question.options.map((option, optionIndex) => {
       const isUserAnswer = internalUserAnswer === optionIndex;
       const isCorrectAnswer = question.answer === optionIndex;
-      
+
       // Calculate styles
       let bgColor = 'bg-card';
       let borderColor = 'border-border';
@@ -206,8 +206,8 @@ export default function RedirectQuestion() {
     };
   }, []);
 
-    useEffect(() => {
-      
+  useEffect(() => {
+
     // Note: In development, this effect will run twice due to React.StrictMode
     // This is intentional and helps catch certain types of bugs
     let isMounted = true;
@@ -218,19 +218,19 @@ export default function RedirectQuestion() {
         setError(null);
         const dataUrl = `${APP_URL}/${id}`;
         const response = await fetch(dataUrl);
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data = await response.json();
         console.log('Raw API response:', data);
-        
+
         // Validate the data structure
         if (!data || !Array.isArray(data.questions)) {
           throw new Error('Invalid question set data format');
         }
-        
+
         // Only update state if component is still mounted
         if (isMounted) {
           setQuestionSet(data);
@@ -274,21 +274,32 @@ export default function RedirectQuestion() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/5">
-        <div className="max-w-4xl mx-auto py-4 px-4">
+        <div className="max-w-4xl mx-auto py-4 px-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-4 w-fit group">
             <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-gray-700 to-gray-900 border border-gray-600 flex items-center justify-center shadow-2xl overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/20 to-white/10 rounded-2xl blur-xl group-hover:animate-pulse"></div>
-              <img 
-                src="/src/assets/app-icon.png" 
-                alt="TopicWise Logo" 
+              <img
+                src="/src/assets/app-icon.png"
+                alt="TopicWise Logo"
                 className="w-8 h-8 object-contain relative z-10 drop-shadow-2xl"
               />
             </div>
             <Logo className="h-8 w-auto text-foreground group-hover:text-primary transition-colors" />
           </Link>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.topicwise.apps&pcampaignid=web_share"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-green-600 text-white text-sm hover:bg-green-500 transition-colors border border-green-500/20"
+          >
+            <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">
+              <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" />
+            </svg>
+            <span>Get the App</span>
+          </a>
         </div>
       </header>
-      
+
       <div className="max-w-4xl mx-auto p-4">
         {isLoading && (
           <div className="text-foreground text-center py-20">
@@ -296,38 +307,45 @@ export default function RedirectQuestion() {
             <p className="mt-4">Loading questions...</p>
           </div>
         )}
-        
+
         {error && (
           <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4 text-destructive-foreground text-center">
             <p className="text-lg font-semibold">Error</p>
             <p>{error}</p>
           </div>
         )}
-        
+
         {!isLoading && !error && questionSet && (
           <>
             <div className="sticky top-0 bg-background/95 backdrop-blur-sm z-10 p-4 rounded-lg mb-6 border">
               <div className="flex justify-between items-center text-foreground">
-                <span className="text-xl font-semibold">Topic: {questionSet.topic}</span>
-                <span>
-                  Answered: {Object.keys(userAnswers).length} / {questionSet.questions?.length}
-                </span>
+                <span className="text-sm font-medium">Topic: {questionSet.topic}</span>
+                <div className="flex items-center gap-4">
+                  <span className="text-xs">
+                    Correct: {Object.entries(userAnswers).filter(([id, answer]) =>
+                      questionSet.questions.find(q => q._id === id)?.answer === answer
+                    ).length} / {Object.keys(userAnswers).length}
+                  </span>
+                  <span className="text-muted-foreground text-xs">
+                    Questions: {questionSet.questions?.length}
+                  </span>
+                </div>
               </div>
               <div className="mt-2 h-1 bg-muted rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-primary transition-all duration-300"
-                  style={{ 
-                    width: `${(Object.keys(userAnswers).length / (questionSet.questions?.length || 1)) * 100}%` 
+                  style={{
+                    width: `${(Object.keys(userAnswers).length / (questionSet.questions?.length || 1)) * 100}%`
                   }}
-            />
-          </div>
-        </div>
+                />
+              </div>
+            </div>
 
             <div className="space-y-8">
               {questionSet.questions?.map((question, index) => {
                 const isAnswered = userAnswers.hasOwnProperty(question._id);
                 const userAnswer = userAnswers[question._id];
-                
+
                 return (
                   <QuestionCard
                     key={question._id}
@@ -340,31 +358,9 @@ export default function RedirectQuestion() {
                   />
                 );
               })}
-        </div>
+            </div>
 
-            <div className="sticky bottom-4 mt-8 bg-background/95 backdrop-blur-sm p-4 rounded-lg border">
-              <div className="flex justify-between items-center gap-4">
-                <span className="text-foreground">
-                  Correct: {Object.entries(userAnswers).filter(([id, answer]) => 
-                    questionSet.questions.find(q => q._id === id)?.answer === answer
-                  ).length} / {Object.keys(userAnswers).length}
-                </span>
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => setShowResults(true)}
-                    className="px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg"
-                  >
-                    Show Results
-                  </button>
-          <button 
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    className="px-4 py-2 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-lg"
-          >
-                    Back to Top
-          </button>
-        </div>
-              </div>
-        </div>
+            
 
             {/* Results Dialog */}
             <ResultsDialog
