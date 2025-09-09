@@ -31,7 +31,7 @@ const Home = () => {
                 <div className="w-32 h-32 bg-gradient-to-br from-gray-700 to-gray-900 border border-gray-600 rounded-3xl flex items-center justify-center shadow-2xl overflow-hidden relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/20 to-white/10 rounded-3xl blur-xl animate-pulse"></div>
                   <img 
-                    src="/src/assets/app-icon.png" 
+                    src="/app-icon.png" 
                     alt="App Icon" 
                     className="w-24 h-24 object-cover rounded-2xl relative z-10 drop-shadow-2xl"
                   />
