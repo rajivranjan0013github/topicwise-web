@@ -12,7 +12,7 @@ const Home = () => {
             <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-gray-700 to-gray-900 border border-gray-600 flex items-center justify-center shadow-2xl overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/20 to-white/10 rounded-2xl blur-xl group-hover:animate-pulse"></div>
               <img 
-                src="/src/assets/app-icon.png" 
+                src="/app-icon.png" 
                 alt="TopicWise Logo" 
                 className="w-8 h-8 object-contain relative z-10 drop-shadow-2xl"
               />
