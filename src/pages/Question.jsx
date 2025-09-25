@@ -187,7 +187,6 @@ export default function RedirectQuestion() {
     userAnswersRef.current = userAnswers;
     if (hasChanges) {
       const saveTimeout = setTimeout(() => {
-        console.log('Auto-saving answers...', userAnswers);
         // TODO: Implement API call to save answers
         setHasChanges(false);
       }, 2000);
@@ -200,7 +199,6 @@ export default function RedirectQuestion() {
   useEffect(() => {
     return () => {
       if (hasChangesRef.current) {
-        console.log('Saving answers on unmount...', userAnswersRef.current);
         // TODO: Implement API call to save answers
       }
     };
@@ -224,7 +222,6 @@ export default function RedirectQuestion() {
         }
 
         const data = await response.json();
-        console.log('Raw API response:', data);
 
         // Validate the data structure
         if (!data || !Array.isArray(data.questions)) {
@@ -234,7 +231,6 @@ export default function RedirectQuestion() {
         // Only update state if component is still mounted
         if (isMounted) {
           setQuestionSet(data);
-          console.log('Question set data:', data);
         }
       } catch (err) {
         // Only update state if component is still mounted
